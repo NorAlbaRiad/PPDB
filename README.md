@@ -2,7 +2,7 @@
 
 Este proyecto presenta la creación y validación de la Peptide Profiler Data Base (PPDB), una nueva base de datos de secuencias peptídicas antimicrobianas, integrada a partir de dbAMP 2.0, FermFooDb (FMDB) y el Data Repository of Antimicrobial Peptides (DRAMP).
 
-![Resumen gráfico](graphical_abstract.png)
+![Resumen gráfico](graphical_abstract_PPDB.png)
 
 ## Introducción
 
