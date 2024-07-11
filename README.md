@@ -1,5 +1,7 @@
 # Peptide Profiler Data Base (PPBD)
 
+Este proyecto presenta la creación y validación de la Peptide Profiler Data Base (PPDB), una nueva base de datos de secuencias peptídicas antimicrobianas, integrada a partir de dbAMP 2.0, FermFooDb (FMDB) y el Data Repository of Antimicrobial Peptides (DRAMP).
+
 ![Resumen gráfico](graphical_abstract.png)
 
 ## Introducción
@@ -8,14 +10,29 @@ La creciente resistencia a los antibióticos convencionales ha impulsado la bús
 
 El objetivo global de este trabajo es elaborar una base de datos o catálogo que recoja péptidos con actividad antimicrobiana y sin actividad antimicrobiana. Esta base de datos servirá como recurso fundamental para trabajar en problemas de clasificación mediante técnicas de machine learning. Al proporcionar un conjunto de datos amplio y bien caracterizado de péptidos, se facilitará el desarrollo y la evaluación de modelos de aprendizaje automático que puedan predecir la actividad antimicrobiana de nuevos péptidos. Esta aproximación tiene el potencial de acelerar el descubrimiento de nuevos AMPs y optimizar su diseño, contribuyendo así a la lucha contra la resistencia a los antibióticos.
 
-## Creación de PPDB
+## Descripción de los archivos y directorios:
 
-Se han fusionado tres bases de datos de secuencias peptídicas con diversas actividades y orígenes: dbAMP 2.0 (https://doi.org/10.1093/nar/gkab1080), FermFooDb (FMDB; https://doi.org/10.1016/j.heliyon.2021.e06668 ) y el Data Repository of Antimicrobial Peptides (DRAMP; https://doi.org/10.1093/nar/gkab651 ). Para cada secuencia, se añadieron identificadores adicionales (PubMed, Uniprot, APD3) y targets específicos cuando fue posible. Se calcularon predictores estadísticos, fisicoquímicos y codificaciones (One-hot, Blosum 62, NFL, Z-scale y EDSSMat75) mediante ProPythia. Se implementó un proceso para aplanar y concatenar estas codificaciones en un solo vector con padding aplicado para asegurar que todas las secuencias tuvieran la misma longitud.
+- **db**: Directorio que contiene los scripts para la creación de PPBD, archivos necesarios, y resultados.
+  - **creacion_db.ipynb**: Este archivo contiene el código y las instrucciones necesarias para crear la base de datos PPDB a partir de los datos en bruto.
+  - **db_stat_FQ.ipynb**: Jupyter Notebook con estadísticas y análisis de las bases de datos. Este archivo proporciona un análisis detallado de la calidad y características de los datos contenidos en la PPDB.
+  - **files_results**: Directorio que contiene los resultados de los análisis.
+    - **db_all_stat.csv**: Archivo CSV para el análisis estadístico de las bases de datos. Contiene diversas estadísticas descriptivas sobre la PPDB.
+    - **db_AMP_ML.csv**: Archivo CSV curado para aprendizaje automático. Este archivo está preparado específicamente para ser utilizado en modelos de machine learning.
+  - **graph_plots**: Directorio con gráficos generados durante los análisis. Contiene diversas visualizaciones que ilustran los resultados de los análisis y las características de los datos.
+  - **sub_files_bds**: Directorio con archivos necesarios para la creación de las bases de datos. Incluye datos adicionales y scripts auxiliares que fueron utilizados en el proceso de construcción de la PPDB.
 
-## Validación de PPDB como herramienta de predicción de AMP
+- **Model**: Directorio que contiene los modelos de aprendizaje automático.
+  - **archivos**: Directorio con archivos de datos utilizados en los modelos.
+    - **db_all.csv**: Archivo CSV con todos los datos.
+    - **db_encode.csv**: Archivo CSV con los datos codificados.
+    - **db_encode_aplanado.csv**: Archivo CSV con los datos codificados y aplanados.
+    - **db_FQ.csv**: Archivo CSV con datos específicos de calidad.
+  - **best_models**: Directorio con los mejores modelos entrenados. Aquí se encuentran los modelos de machine learning que han mostrado mejor rendimiento durante la fase de entrenamiento y validación.
+  - **encoding_eddf75.xlsx**: Archivo Excel con las codificaciones utilizadas en los modelos. Este archivo es esencial para entender las transformaciones aplicadas a los datos antes del entrenamiento de los modelos.
+  - **figuras**: Directorio que contiene figuras generadas durante el proceso de modelado y análisis.
+  - **Validacion_db_ML.ipynb**: Jupyter Notebook con los análisis y modelos de aprendizaje automático. Este archivo documenta el proceso de validación de los modelos, incluyendo métricas de rendimiento y visualizaciones.
 
-Se aplicó un protocolo de filtrado basado en la longitud de las secuencias peptídicas, reteniendo solo aquellas secuencias de entre 7 y 150 aminoácidos para asegurar la consistencia de los datos. Se implementaron tres modelos de Random Forest para validar la base de datos: RF_FQ (predictores fisicoquímicos), RF_Encode (codificaciones) y RF_ALL (todos los predictores), optimizados mediante GridSearchCV. Posteriormente, se calcularon las matrices de confusión para determinar la sensibilidad y especificidad del mejor resultado de Random Forest para cada modelo. Se analizó la importancia de los predictores para cada modelo, permitiendo comparar la contribución de cada técnica de codificación al rendimiento del modelo.
+- **README.md**: Archivo con la descripción general del proyecto. Proporciona una visión general del propósito y uso del proyecto, incluyendo instrucciones de instalación y uso.
+- **graphical_abstract.png**: Imagen del resumen gráfico del proyecto. Una visualización concisa que resume los principales hallazgos y metodologías del proyecto.
+- **LICENSE**: Archivo de licencia del proyecto. Contiene los términos y condiciones bajo los cuales se puede utilizar y distribuir el proyecto.
 
-## Análisis estadístico
-
-Se realizó un análisis estadístico detallado para evaluar la composición y el enriquecimiento de las tres bases de datos originales (DRAMP, FMDB y dbAMP) comparándolas con nuestra base de datos desarrollada (PPDB). Este análisis incluyó técnicas de análisis de componentes principales (PCA)  UMAP, así como un análisis de clusterización mediante el algoritmo K-means.
